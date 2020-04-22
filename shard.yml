@@ -1,0 +1,9 @@
+name: fnv
+version: 0.1.0
+
+authors:
+  - Ali Naqvi <syed.alinaqvi@gmail.com>
+
+crystal: 0.34.0
+
+license: MIT
