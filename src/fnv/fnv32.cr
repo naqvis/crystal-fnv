@@ -8,14 +8,15 @@ class Digest::FNV32 < Digest::Base
     @hash = OFFSET
   end
 
-  def update(data)
+  def update_impl(data : Bytes) : Nil
     data.to_slice.each do |b|
       @hash &*= PRIME
       @hash ^= b.to_u32
     end
   end
 
-  def final
+  def final_impl(result : Bytes) : Nil
+    IO::ByteFormat::BigEndian.encode(@hash, result)
   end
 
   def result
@@ -24,7 +25,11 @@ class Digest::FNV32 < Digest::Base
     result
   end
 
-  def reset
+  def digest_size : Int32
+    sizeof(UInt32)
+  end
+
+  def reset_impl : Nil
     @hash = OFFSET
   end
 
@@ -41,14 +46,15 @@ class Digest::FNV32A < Digest::Base
     @hash = OFFSET
   end
 
-  def update(data)
+  def update_impl(data : Bytes) : Nil
     data.to_slice.each do |b|
       @hash ^= b.to_u32
       @hash &*= PRIME
     end
   end
 
-  def final
+  def final_impl(result : Bytes) : Nil
+    IO::ByteFormat::BigEndian.encode(@hash, result)
   end
 
   def result
@@ -57,7 +63,11 @@ class Digest::FNV32A < Digest::Base
     result
   end
 
-  def reset
+  def digest_size : Int32
+    sizeof(UInt32)
+  end
+
+  def reset_impl : Nil
     @hash = OFFSET
   end
 

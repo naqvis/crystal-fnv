@@ -10,7 +10,7 @@ class Digest::FNV128 < Digest::Base
     @hash = [OFFSET_H, OFFSET_L]
   end
 
-  def update(data)
+  def update_impl(data : Bytes) : Nil
     data.to_slice.each do |b|
       # compute the multiplication
       s0, s1 = mul64(PRIME_L, @hash[1])
@@ -22,7 +22,12 @@ class Digest::FNV128 < Digest::Base
     end
   end
 
-  def final
+  def final_impl(result : Bytes) : Nil
+    val = IO::Memory.new
+    @hash.each do |h|
+      IO::ByteFormat::BigEndian.encode(h, val)
+    end
+    result.copy_from(val.to_slice.to_unsafe, result.size)
   end
 
   def result
@@ -34,7 +39,11 @@ class Digest::FNV128 < Digest::Base
     result.to_slice
   end
 
-  def reset
+  def digest_size : Int32
+    sizeof(UInt128)
+  end
+
+  def reset_impl : Nil
     @hash = [OFFSET_H, OFFSET_L]
   end
 
@@ -53,7 +62,7 @@ class Digest::FNV128A < Digest::Base
     @hash = [OFFSET_H, OFFSET_L]
   end
 
-  def update(data)
+  def update_impl(data : Bytes) : Nil
     data.to_slice.each do |b|
       @hash[1] ^= b.to_u64
       # compute the multiplication
@@ -65,7 +74,12 @@ class Digest::FNV128A < Digest::Base
     end
   end
 
-  def final
+  def final_impl(result : Bytes) : Nil
+    val = IO::Memory.new
+    @hash.each do |h|
+      IO::ByteFormat::BigEndian.encode(h, val)
+    end
+    result.copy_from(val.to_slice.to_unsafe, result.size)
   end
 
   def result
@@ -77,7 +91,11 @@ class Digest::FNV128A < Digest::Base
     result.to_slice
   end
 
-  def reset
+  def digest_size : Int32
+    sizeof(UInt128)
+  end
+
+  def reset_impl : Nil
     @hash = [OFFSET_H, OFFSET_L]
   end
 
