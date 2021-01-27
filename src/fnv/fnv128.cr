@@ -1,6 +1,7 @@
-require "digest/base"
+require "digest/digest"
 
-class Digest::FNV128 < Digest::Base
+class Digest::FNV128 < Digest
+  extend Digest::ClassMethods
   private OFFSET_H = 0x6c62272e07bb0142_u64
   private OFFSET_L = 0x62b821756295c58d_u64
   private PRIME_L  =              0x13b_u64
@@ -52,7 +53,8 @@ class Digest::FNV128 < Digest::Base
   end
 end
 
-class Digest::FNV128A < Digest::Base
+class Digest::FNV128A < Digest
+  extend Digest::ClassMethods
   private OFFSET_H = 0x6c62272e07bb0142_u64
   private OFFSET_L = 0x62b821756295c58d_u64
   private PRIME_L  =              0x13b_u64

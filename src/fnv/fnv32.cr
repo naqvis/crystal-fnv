@@ -1,6 +1,8 @@
-require "digest/base"
+require "digest/digest"
 
-class Digest::FNV32 < Digest::Base
+class Digest::FNV32 < Digest
+  extend Digest::ClassMethods
+
   private OFFSET = 2166136261_u32
   private PRIME  =   16777619_u32
 
@@ -38,7 +40,8 @@ class Digest::FNV32 < Digest::Base
   end
 end
 
-class Digest::FNV32A < Digest::Base
+class Digest::FNV32A < Digest
+  extend Digest::ClassMethods
   private OFFSET = 2166136261_u32
   private PRIME  =   16777619_u32
 

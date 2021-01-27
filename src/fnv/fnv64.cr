@@ -1,6 +1,7 @@
-require "digest/base"
+require "digest/digest"
 
-class Digest::FNV64 < Digest::Base
+class Digest::FNV64 < Digest
+  extend Digest::ClassMethods
   private OFFSET = 14695981039346656037_u64
   private PRIME  =        1099511628211_u64
 
@@ -38,7 +39,8 @@ class Digest::FNV64 < Digest::Base
   end
 end
 
-class Digest::FNV64A < Digest::Base
+class Digest::FNV64A < Digest
+  extend Digest::ClassMethods
   private OFFSET = 14695981039346656037_u64
   private PRIME  =        1099511628211_u64
 

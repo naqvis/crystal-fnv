@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-describe Digest::FNV do
+describe FNV do
   it "Test Hashes" do
     # 32bit FNV-1
     digest = Digest::FNV32.digest("foo")
